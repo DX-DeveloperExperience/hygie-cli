@@ -1,0 +1,15 @@
+{
+  "$schema": "./../node_modules/@nestjs/schematics/collection.json",
+  "schematics": {
+    "rule": {
+      "factory": "../dist/rule/rule.factory#main",
+      "description": "A rule schematic.",
+      "schema": "./rule/schema.json"
+    },
+    "runnable": {
+      "factory": "../dist/runnable/runnable.factory#main",
+      "description": "A runnable schematic.",
+      "schema": "./runnable/schema.json"
+    }
+  }
+}
