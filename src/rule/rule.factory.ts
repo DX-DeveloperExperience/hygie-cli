@@ -36,7 +36,7 @@ function ruleFileContent(ruleName: string, fileName: string): string {
 import { RuleResult } from './ruleResult';
 
 interface ${ruleName}Options {
-
+  opt: string;
 }
 
 export class ${ruleName}Rule extends Rule {
@@ -48,7 +48,8 @@ export class ${ruleName}Rule extends Rule {
 
     return ruleResult;
   }
-}`;
+}
+`;
 
   return res;
 }
@@ -62,7 +63,7 @@ function ruleServiceFileContent(ruleName: string, fileName: string): string {
   const index2: number = fileContent.indexOf('rule.name = r.name;');
 
   const leftSide: string = fileContent.substring(0, index1 - 1);
-  const newImport: string = `import { ${ruleName} } from './${fileName}.rule';
+  const newImport: string = `import { ${ruleName}Rule } from './${fileName}.rule';
 `;
   const betweenSide: string = fileContent.substring(index1, index2);
   const newElse: string = `else if (r.name === '${fileName}') {
