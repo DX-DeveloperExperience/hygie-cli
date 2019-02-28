@@ -2,7 +2,7 @@
   "schematics": "./src/collection.json",
   "name": "git-webhooks-cli",
   "version": "0.0.0",
-  "description": "A Git-Webhhoks CLI to generate rule and runnable classes",
+  "description": "A CLI to generate rule and runnable classes for Git-Webhhoks",
   "author": "",
   "license": "MIT",
   "scripts": {
