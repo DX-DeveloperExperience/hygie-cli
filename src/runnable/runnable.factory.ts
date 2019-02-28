@@ -38,6 +38,7 @@ import { RuleResult } from '../rules/ruleResult';
 import { render } from 'mustache';
 
 interface ${runnableName}Args {
+  arg: string;
 }
 export class ${runnableName}Runnable implements RunnableInterface {
   name: string = '${runnableName}';
@@ -65,7 +66,7 @@ function runnableServiceFileContent(
   const index2: number = fileContent.indexOf('return runnable;') - 10;
 
   const leftSide: string = fileContent.substring(0, index1 - 1);
-  const newImport: string = `import { ${runnableName} } from './${fileName}.runnable';
+  const newImport: string = `import { ${runnableName}Runnable } from './${fileName}.runnable';
 `;
   const betweenSide: string = fileContent.substring(index1, index2);
   const newElse: string = `case '${runnableName}':
