@@ -36,6 +36,7 @@ function runnableFileContent(runnableName: string, fileName: string): string {
   const res: string = `import { RunnableInterface } from './runnable.interface';
 import { RuleResult } from '../rules/ruleResult';
 import { render } from 'mustache';
+import { CallbackType } from './runnable';
 
 interface ${runnableName}Args {
   arg: string;
@@ -43,8 +44,11 @@ interface ${runnableName}Args {
 export class ${runnableName}Runnable implements RunnableInterface {
   name: string = '${runnableName}';
 
-  run(ruleResult: RuleResult, args: ${runnableName}Args): void {
-
+  run(
+    callbackType: CallbackType,
+    ruleResult: RuleResult,
+    args: ${runnableName}Args,
+  ): void {
     // ...
 
   }
