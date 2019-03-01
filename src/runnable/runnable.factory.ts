@@ -66,7 +66,7 @@ function runnableServiceFileContent(
     'src/runnables/runnable.ts',
   ).toString();
 
-  const index1: number = fileContent.indexOf('\n@Injectable()');
+  const index1: number = fileContent.indexOf('\nexport enum CallbackType');
   const index2: number = fileContent.indexOf('return runnable;') - 10;
 
   const leftSide: string = fileContent.substring(0, index1 - 1);
