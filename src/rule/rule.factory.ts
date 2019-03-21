@@ -40,7 +40,7 @@ interface ${ruleName}Options {
 }
 
 /**
- * \`${ruleName}Rule\` DESCRIPTION
+ * \`${ruleName}Rule\` DESCRIPTION.
  * @return return a \`RuleResult\` object
  */
 @RuleDecorator('${fileName}')

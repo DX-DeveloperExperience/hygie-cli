@@ -9,10 +9,14 @@ export function main(options: RunnableOptions): Rule {
 
   return (tree: Tree, context: SchematicContext) => {
     tree.overwrite(
-      `src/runnables/runnable.ts`,
+      `src/runnables/runnables.service.ts`,
       runnableServiceFileContent(runnableName, fileName),
     );
 
+    tree.overwrite(
+      `src/runnables/index.ts`,
+      indexFileContent(runnableName, fileName),
+    );
     // Create the Runnable file
     return tree.create(
       `src/runnables/${fileName}.runnable.ts`,
@@ -33,16 +37,21 @@ function getClearName(name: string) {
 }
 
 function runnableFileContent(runnableName: string, fileName: string): string {
-  const res: string = `import { RunnableInterface } from './runnable.interface';
+  const res: string = `import { Runnable } from './runnable.class';
 import { RuleResult } from '../rules/ruleResult';
 import { render } from 'mustache';
-import { CallbackType } from './runnable';
+import { CallbackType } from './runnables.service';
+import { RunnableDecorator } from './runnable.decorator';
 
 interface ${runnableName}Args {
-  arg: string;
+  arg: any;
 }
-export class ${runnableName}Runnable implements RunnableInterface {
-  name: string = '${runnableName}';
+
+/**
+ * \`runnableName\`Runnable DESCRIPTION.
+ */
+@RunnableDecorator('${runnableName}Runnable')
+export class ${runnableName}Runnable extends Runnable {
 
   run(
     callbackType: CallbackType,
@@ -63,7 +72,7 @@ function runnableServiceFileContent(
   fileName: string,
 ): string {
   const fileContent: string = readFileSync(
-    'src/runnables/runnable.ts',
+    'src/runnables/runnables.service.ts',
   ).toString();
 
   const index1: number = fileContent.indexOf('\nexport enum CallbackType');
@@ -80,4 +89,12 @@ function runnableServiceFileContent(
   const rightSide: string = fileContent.substring(index2);
 
   return leftSide + newImport + betweenSide + newElse + rightSide;
+}
+
+function indexFileContent(ruleName: string, fileName: string): string {
+  const fileContent: string = readFileSync('src/runnables/index.ts').toString();
+
+  const newExport: string = `export { ${ruleName}Runnable } from './${fileName}.runnable';\n`;
+
+  return fileContent + newExport;
 }
