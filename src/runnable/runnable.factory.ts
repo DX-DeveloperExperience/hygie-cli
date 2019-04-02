@@ -17,10 +17,17 @@ export function main(options: RunnableOptions): Rule {
       `src/runnables/index.ts`,
       indexFileContent(runnableName, fileName),
     );
+
     // Create the Runnable file
-    return tree.create(
+    tree.create(
       `src/runnables/${fileName}.runnable.ts`,
       runnableFileContent(runnableName, fileName),
+    );
+
+    // Create the Runnable Test file
+    return tree.create(
+      `src/runnables/${fileName}.runnable.spec.ts`,
+      runnableTestFileContent(runnableName, fileName),
     );
   };
 }
@@ -97,4 +104,60 @@ function indexFileContent(ruleName: string, fileName: string): string {
   const newExport: string = `export { ${ruleName}Runnable } from './${fileName}.runnable';\n`;
 
   return fileContent + newExport;
+}
+
+function runnableTestFileContent(
+  runnableName: string,
+  fileName: string,
+): string {
+  return `import { Test, TestingModule } from '@nestjs/testing';
+import { GithubService } from '../github/github.service';
+import { GitlabService } from '../gitlab/gitlab.service';
+import { Webhook } from '../webhook/webhook';
+import { HttpService } from '@nestjs/common';
+import { GitTypeEnum } from '../webhook/utils.enum';
+import { RunnablesService } from './runnables.service';
+import { RuleResult } from '../rules/ruleResult';
+import { GitApiInfos } from '../git/gitApiInfos';
+import {
+  MockHttpService,
+  MockGitlabService,
+  MockGithubService,
+} from '../__mocks__/mocks';
+
+describe('RunnableService', () => {
+  let app: TestingModule;
+
+  let githubService: GithubService;
+  let gitlabService: GitlabService;
+
+  let runnableService: RunnablesService;
+
+  beforeAll(async () => {
+    app = await Test.createTestingModule({
+      providers: [
+        RunnablesService,
+        { provide: HttpService, useClass: MockHttpService },
+        { provide: GitlabService, useClass: MockGitlabService },
+        { provide: GithubService, useClass: MockGithubService },
+      ],
+    }).compile();
+
+    githubService = app.get(GithubService);
+    gitlabService = app.get(GitlabService);
+    runnableService = app.get(RunnablesService);
+
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('${runnableName} Runnable', () => {
+    it('should do something', () => {
+      // Implements your tests here
+    });
+  });
+});
+`;
 }
