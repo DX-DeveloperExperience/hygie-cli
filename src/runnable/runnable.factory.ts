@@ -89,7 +89,7 @@ function runnableServiceFileContent(
   const newImport: string = `import { ${runnableName}Runnable } from './${fileName}.runnable';
 `;
   const betweenSide: string = fileContent.substring(index1, index2);
-  const newElse: string = `case '${runnableName}':
+  const newElse: string = `case '${runnableName}Runnable':
         runnable = new ${runnableName}Runnable();
         break;
       `;
