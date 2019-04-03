@@ -55,7 +55,7 @@ interface ${runnableName}Args {
 }
 
 /**
- * \`runnableName\`Runnable DESCRIPTION.
+ * \`${runnableName}Runnable\` DESCRIPTION.
  */
 @RunnableDecorator('${runnableName}Runnable')
 export class ${runnableName}Runnable extends Runnable {
