@@ -52,14 +52,17 @@ interface ${ruleName}Options {
 @RuleDecorator('${fileName}')
 export class ${ruleName}Rule extends Rule {
   options: ${ruleName}Options;
-  events = [GitEventEnum.SELECT_EVENT];
+  events = [GitEventEnum.Undefined];
 
-  validate(webhook: Webhook, ruleConfig: ${ruleName}Rule): RuleResult {
+  async validate(
+    webhook: Webhook,
+    ruleConfig: IssueTitleRule,
+  ): Promise<RuleResult> {
     const ruleResult: RuleResult = new RuleResult(webhook.getGitApiInfos());
 
     // ...
 
-    return ruleResult;
+    return Promise.resolve(ruleResult);
   }
 }
 `;
