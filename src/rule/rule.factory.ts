@@ -56,7 +56,7 @@ export class ${ruleName}Rule extends Rule {
 
   async validate(
     webhook: Webhook,
-    ruleConfig: IssueTitleRule,
+    ruleConfig: ${ruleName}Rule,
   ): Promise<RuleResult> {
     const ruleResult: RuleResult = new RuleResult(webhook.getGitApiInfos());
 
