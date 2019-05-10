@@ -63,7 +63,7 @@ export class ${runnableName}Runnable extends Runnable {
   async run(
     callbackType: CallbackType,
     ruleResult: RuleResult,
-    args: CommentIssueArgs,
+    args: ${runnableName}Args,
   ): Promise<void> {
     const data = ruleResult.data as any;
     // ...
