@@ -131,7 +131,7 @@ describe('RulesService', () => {
       const result: RuleResult = await ${fileName}Rule.validate(webhook, ${fileName}Rule);
       const expectedResult = {};
 
-      expect(result.validated).toBe(BOOLEAN);
+      expect(result.validated).toBe(true);
       expect(result.data).toEqual(expectedResult);
     });
   });
