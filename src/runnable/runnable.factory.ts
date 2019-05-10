@@ -60,11 +60,12 @@ interface ${runnableName}Args {
 @RunnableDecorator('${runnableName}Runnable')
 export class ${runnableName}Runnable extends Runnable {
 
-  run(
+  async run(
     callbackType: CallbackType,
     ruleResult: RuleResult,
-    args: ${runnableName}Args,
-  ): void {
+    args: CommentIssueArgs,
+  ): Promise<void> {
+    const data = ruleResult.data as any;
     // ...
 
   }

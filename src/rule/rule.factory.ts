@@ -96,6 +96,7 @@ describe('RulesService', () => {
   let app: TestingModule;
   let githubService: GithubService;
   let gitlabService: GitlabService;
+  let webhook: Webhook;
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
@@ -108,6 +109,9 @@ describe('RulesService', () => {
 
     githubService = app.get(GithubService);
     gitlabService = app.get(GitlabService);
+    webhook = new Webhook(gitlabService, githubService);
+    // custom your webhook object
+
   });
 
   beforeEach(() => {
@@ -116,8 +120,19 @@ describe('RulesService', () => {
 
   // ${ruleName} Rule
   describe('${fileName} Rule', () => {
-    it('should do something', () => {
+    it('should do something', async () => {
       // Implements your tests here
+      const ${fileName}Rule = new ${ruleName}Rule();
+      ${fileName}Rule.options = {
+        opt: '',
+      };
+      jest.spyOn(${fileName}Rule, 'validate');
+
+      const result: RuleResult = await ${fileName}Rule.validate(webhook, ${fileName}Rule);
+      const expectedResult = {};
+
+      expect(result.validated).toBe(BOOLEAN);
+      expect(result.data).toEqual(expectedResult);
     });
   });
 });
