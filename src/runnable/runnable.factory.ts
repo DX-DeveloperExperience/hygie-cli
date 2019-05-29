@@ -133,11 +133,9 @@ describe('UpdateIssueRunnable', () => {
     jest.clearAllMocks();
   });
 
-  describe('updateIssue Runnable', () => {
-    it('should not call the updateIssue Github nor Gitlab service', () => {
+  describe('${fileName} Runnable', () => {
+    it('should do something', () => {
       ${fileName}Runnable.run(CallbackType.Both, ruleResult, args);
-      expect(githubService.updateIssue).not.toBeCalled();
-      expect(gitlabService.updateIssue).not.toBeCalled();
     });
   });
 });
