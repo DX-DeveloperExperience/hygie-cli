@@ -92,7 +92,7 @@ import { GitApiInfos } from '../git/gitApiInfos';
 import { MockGitlabService, MockGithubService } from '../__mocks__/mocks';
 import { ${runnableName}Runnable } from './${fileName}.runnable';
 
-describe('UpdateIssueRunnable', () => {
+describe('${runnableName}Runnable', () => {
   let app: TestingModule;
 
   let githubService: GithubService;
@@ -133,7 +133,7 @@ describe('UpdateIssueRunnable', () => {
     jest.clearAllMocks();
   });
 
-  describe('${fileName} Runnable', () => {
+  describe('Run method', () => {
     it('should do something', () => {
       ${fileName}Runnable.run(CallbackType.Both, ruleResult, args);
     });
