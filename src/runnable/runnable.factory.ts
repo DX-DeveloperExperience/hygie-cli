@@ -90,7 +90,7 @@ import { CallbackType } from './runnables.service';
 import { RuleResult } from '../rules/ruleResult';
 import { GitApiInfos } from '../git/gitApiInfos';
 import { MockGitlabService, MockGithubService } from '../__mocks__/mocks';
-import { ${runnableName} } from './${fileName}.runnable';
+import { ${runnableName}Runnable } from './${fileName}.runnable';
 
 describe('UpdateIssueRunnable', () => {
   let app: TestingModule;
@@ -98,7 +98,7 @@ describe('UpdateIssueRunnable', () => {
   let githubService: GithubService;
   let gitlabService: GitlabService;
 
-  let ${fileName}: ${runnableName};
+  let ${fileName}Runnable: ${runnableName}Runnable;
 
   let args: any;
   let ruleResult: RuleResult;
@@ -106,7 +106,7 @@ describe('UpdateIssueRunnable', () => {
   beforeAll(async () => {
     app = await Test.createTestingModule({
       providers: [
-        ${runnableName},
+        ${runnableName}Runnable,
         { provide: GitlabService, useClass: MockGitlabService },
         { provide: GithubService, useClass: MockGithubService },
       ],
@@ -114,7 +114,7 @@ describe('UpdateIssueRunnable', () => {
 
     githubService = app.get(GithubService);
     gitlabService = app.get(GitlabService);
-    ${fileName} = app.get(${runnableName});
+    ${fileName}Runnable = app.get(${runnableName}Runnable);
 
     const myGitApiInfos = new GitApiInfos();
     myGitApiInfos.repositoryFullName = 'bastienterrier/test_webhook';
@@ -135,7 +135,7 @@ describe('UpdateIssueRunnable', () => {
 
   describe('updateIssue Runnable', () => {
     it('should not call the updateIssue Github nor Gitlab service', () => {
-      ${fileName}.run(CallbackType.Both, ruleResult, args);
+      ${fileName}Runnable.run(CallbackType.Both, ruleResult, args);
       expect(githubService.updateIssue).not.toBeCalled();
       expect(gitlabService.updateIssue).not.toBeCalled();
     });
