@@ -9,11 +9,6 @@ export function main(options: RunnableOptions): Rule {
 
   return (tree: Tree, context: SchematicContext) => {
     tree.overwrite(
-      `src/runnables/runnables.service.ts`,
-      runnableServiceFileContent(runnableName, fileName),
-    );
-
-    tree.overwrite(
       `src/runnables/index.ts`,
       indexFileContent(runnableName, fileName),
     );
@@ -75,30 +70,6 @@ export class ${runnableName}Runnable extends Runnable {
   return res;
 }
 
-function runnableServiceFileContent(
-  runnableName: string,
-  fileName: string,
-): string {
-  const fileContent: string = readFileSync(
-    'src/runnables/runnables.service.ts',
-  ).toString();
-
-  const index1: number = fileContent.indexOf('\nexport enum CallbackType');
-  const index2: number = fileContent.indexOf('return runnable;') - 10;
-
-  const leftSide: string = fileContent.substring(0, index1 - 1);
-  const newImport: string = `import { ${runnableName}Runnable } from './${fileName}.runnable';
-`;
-  const betweenSide: string = fileContent.substring(index1, index2);
-  const newElse: string = `case '${runnableName}Runnable':
-        runnable = new ${runnableName}Runnable();
-        break;
-      `;
-  const rightSide: string = fileContent.substring(index2);
-
-  return leftSide + newImport + betweenSide + newElse + rightSide;
-}
-
 function indexFileContent(ruleName: string, fileName: string): string {
   const fileContent: string = readFileSync('src/runnables/index.ts').toString();
 
@@ -114,27 +85,28 @@ function runnableTestFileContent(
   return `import { Test, TestingModule } from '@nestjs/testing';
 import { GithubService } from '../github/github.service';
 import { GitlabService } from '../gitlab/gitlab.service';
-import { HttpService } from '@nestjs/common';
-import { RunnablesService } from './runnables.service';
-import {
-  MockHttpService,
-  MockGitlabService,
-  MockGithubService,
-} from '../__mocks__/mocks';
+import { GitTypeEnum } from '../webhook/utils.enum';
+import { CallbackType } from './runnables.service';
+import { RuleResult } from '../rules/ruleResult';
+import { GitApiInfos } from '../git/gitApiInfos';
+import { MockGitlabService, MockGithubService } from '../__mocks__/mocks';
+import { ${runnableName} } from './${fileName}.runnable';
 
-describe('RunnableService', () => {
+describe('UpdateIssueRunnable', () => {
   let app: TestingModule;
 
   let githubService: GithubService;
   let gitlabService: GitlabService;
 
-  let runnableService: RunnablesService;
+  let ${fileName}: ${runnableName};
+
+  let args: any;
+  let ruleResult: RuleResult;
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
       providers: [
-        RunnablesService,
-        { provide: HttpService, useClass: MockHttpService },
+        ${runnableName},
         { provide: GitlabService, useClass: MockGitlabService },
         { provide: GithubService, useClass: MockGithubService },
       ],
@@ -142,17 +114,30 @@ describe('RunnableService', () => {
 
     githubService = app.get(GithubService);
     gitlabService = app.get(GitlabService);
-    runnableService = app.get(RunnablesService);
+    ${fileName} = app.get(${runnableName});
 
+    const myGitApiInfos = new GitApiInfos();
+    myGitApiInfos.repositoryFullName = 'bastienterrier/test_webhook';
+    myGitApiInfos.git = GitTypeEnum.Undefined;
+
+    args = { some: 'arg' };
+
+    ruleResult = new RuleResult(myGitApiInfos);
+    ruleResult.validated = false;
+    ruleResult.data = {
+      some: 'data',
+    };
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('${runnableName} Runnable', () => {
-    it('should do something', () => {
-      // Implements your tests here
+  describe('updateIssue Runnable', () => {
+    it('should not call the updateIssue Github nor Gitlab service', () => {
+      ${fileName}.run(CallbackType.Both, ruleResult, args);
+      expect(githubService.updateIssue).not.toBeCalled();
+      expect(gitlabService.updateIssue).not.toBeCalled();
     });
   });
 });
