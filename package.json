@@ -1,8 +1,8 @@
 {
   "schematics": "./src/collection.json",
-  "name": "@dxdeveloperexperience/git-webhooks-cli",
+  "name": "@dxdeveloperexperience/hygie-cli",
   "version": "0.1.9",
-  "description": "A CLI to generate rule and runnable classes for Git-Webhooks",
+  "description": "A CLI to generate rule and runnable classes for Hygie",
   "author": "",
   "license": "MIT",
   "scripts": {
