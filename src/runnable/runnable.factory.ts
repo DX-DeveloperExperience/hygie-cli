@@ -44,6 +44,8 @@ import { RuleResult } from '../rules/ruleResult';
 import { render } from 'mustache';
 import { CallbackType } from './runnables.service';
 import { RunnableDecorator } from './runnable.decorator';
+import { Inject } from '@nestjs/common';
+import { Visitor } from 'universal-analytics';
 
 interface ${runnableName}Args {
   arg: any;
@@ -55,13 +57,26 @@ interface ${runnableName}Args {
 @RunnableDecorator('${runnableName}Runnable')
 export class ${runnableName}Runnable extends Runnable {
 
+  constructor(
+    private readonly githubService: GithubService,
+    private readonly gitlabService: GitlabService,
+    @Inject('GoogleAnalytics')
+    private readonly googleAnalytics: Visitor,
+  ) {
+    super();
+  }
+
   async run(
     callbackType: CallbackType,
     ruleResult: RuleResult,
     args: ${runnableName}Args,
   ): Promise<void> {
     const data = ruleResult.data as any;
-    // ...
+
+    this.googleAnalytics
+      .event('Runnable', '${runnableName}', ruleResult.projectURL)
+      .send();
+
 
   }
 }

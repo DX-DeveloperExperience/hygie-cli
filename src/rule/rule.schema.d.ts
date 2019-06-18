@@ -1,6 +1,6 @@
 export interface RuleOptions {
   /**
-   * The name of the pipe.
+   * The name of the rule.
    */
   name: string;
 }

@@ -40,9 +40,13 @@ import { RuleResult } from './ruleResult';
 import { GitEventEnum } from '../webhook/utils.enum';
 import { Webhook } from '../webhook/webhook';
 import { RuleDecorator } from './rule.decorator';
+import { UsersOptions } from './common.interface';
+import { Utils } from './utils';
+import { Visitor } from 'universal-analytics';
+import { Inject } from '@nestjs/common';
 
 interface ${ruleName}Options {
-  opt: any;
+  users?: UsersOptions;
 }
 
 /**
@@ -54,11 +58,27 @@ export class ${ruleName}Rule extends Rule {
   options: ${ruleName}Options;
   events = [GitEventEnum.Undefined];
 
+  constructor(
+    @Inject('GoogleAnalytics')
+    private readonly googleAnalytics: Visitor,
+  ) {
+    super();
+  }
+
   async validate(
     webhook: Webhook,
     ruleConfig: ${ruleName}Rule,
   ): Promise<RuleResult> {
     const ruleResult: RuleResult = new RuleResult(webhook.getGitApiInfos());
+
+    this.googleAnalytics
+      .event('Rule', '${ruleName}', webhook.getCloneURL())
+      .send();
+
+    // First, check if rule need to be processed
+    if (!Utils.checkUser(webhook, ruleConfig.options.users)) {
+      return null;
+    }
 
     // ...
 
