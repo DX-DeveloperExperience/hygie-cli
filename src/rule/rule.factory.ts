@@ -46,6 +46,7 @@ import { Visitor } from 'universal-analytics';
 import { Inject } from '@nestjs/common';
 
 interface ${ruleName}Options {
+  opt: any;
   users?: UsersOptions;
 }
 
