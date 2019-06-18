@@ -109,6 +109,7 @@ import {
   MockHttpService,
   MockGitlabService,
   MockGithubService,
+  MockAnalytics,
 } from '../__mocks__/mocks';
 import { ${ruleName}Rule } from './${fileName}.rule';
 
@@ -142,7 +143,7 @@ describe('RulesService', () => {
   describe('${fileName} Rule', () => {
     it('should do something', async () => {
       // Implements your tests here
-      const ${fileName}Rule = new ${ruleName}Rule();
+      const ${fileName}Rule = new ${ruleName}Rule(MockAnalytics);
       ${fileName}Rule.options = {
         opt: '',
       };
