@@ -69,8 +69,12 @@ export class ${ruleName}Rule extends Rule {
   async validate(
     webhook: Webhook,
     ruleConfig: ${ruleName}Rule,
+    ruleResults?: RuleResult[],
   ): Promise<RuleResult> {
-    const ruleResult: RuleResult = new RuleResult(webhook.getGitApiInfos());
+    const ruleResult: RuleResult = new RuleResult(
+      webhook.getGitApiInfos(),
+      webhook.getCloneURL(),
+    );
 
     this.googleAnalytics
       .event('Rule', '${ruleName}', webhook.getCloneURL())
