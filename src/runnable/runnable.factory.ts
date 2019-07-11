@@ -41,11 +41,13 @@ function getClearName(name: string) {
 function runnableFileContent(runnableName: string, fileName: string): string {
   const res: string = `import { Runnable } from './runnable.class';
 import { RuleResult } from '../rules/ruleResult';
-import { render } from 'mustache';
+import { Utils } from '../utils/utils';
 import { CallbackType } from './runnables.service';
 import { RunnableDecorator } from './runnable.decorator';
 import { Inject } from '@nestjs/common';
 import { Visitor } from 'universal-analytics';
+import { EnvVarAccessor } from '../env-var/env-var.accessor';
+
 
 interface ${runnableName}Args {
   arg: any;
@@ -62,6 +64,7 @@ export class ${runnableName}Runnable extends Runnable {
     private readonly gitlabService: GitlabService,
     @Inject('GoogleAnalytics')
     private readonly googleAnalytics: Visitor,
+    private readonly envVarAccessor: EnvVarAccessor,
   ) {
     super();
   }
@@ -72,6 +75,7 @@ export class ${runnableName}Runnable extends Runnable {
     args: ${runnableName}Args,
   ): Promise<void> {
     const data = ruleResult.data as any;
+    ruleResult.env = this.envVarAccessor.getAllEnvVar();
 
     this.googleAnalytics
       .event('Runnable', '${runnableName}', ruleResult.projectURL)

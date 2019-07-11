@@ -1,7 +1,7 @@
 {
   "schematics": "./src/collection.json",
   "name": "@dxdeveloperexperience/hygie-cli",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A CLI to generate rule and runnable classes for Hygie",
   "author": "",
   "license": "MIT",
