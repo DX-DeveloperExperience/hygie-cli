@@ -87,7 +87,7 @@ export class ${ruleName}Rule extends Rule {
 
     // ...
 
-    return Promise.resolve(ruleResult);
+    return ruleResult;
   }
 }
 `;
