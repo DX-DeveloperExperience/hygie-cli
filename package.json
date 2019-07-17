@@ -1,7 +1,7 @@
 {
   "schematics": "./src/collection.json",
   "name": "@dxdeveloperexperience/hygie-cli",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A CLI to generate rule and runnable classes for Hygie",
   "author": "",
   "license": "MIT",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@angular-devkit/schematics": "7.3.3",
     "@angular-devkit/schematics-cli": "0.13.3",
-    "@nestjs/common": "5.4.0",
+    "@nestjs/common": "^6.5.2",
     "@nestjs/core": "5.4.0",
     "@nestjs/schematics": "5.11.2",
     "fs": "0.0.1-security",
