@@ -24,7 +24,7 @@
     "@angular-devkit/schematics": "7.3.3",
     "@angular-devkit/schematics-cli": "0.13.3",
     "@nestjs/common": "^6.5.2",
-    "@nestjs/core": "5.4.0",
+    "@nestjs/core": "9.2.1",
     "@nestjs/schematics": "5.11.2",
     "fs": "0.0.1-security",
     "reflect-metadata": "0.1.12",
